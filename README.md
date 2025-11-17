@@ -28,7 +28,7 @@ macos-security-diagnostics/
 
 ### Option 1: Full System Scan (GUI-friendly)
 1. Navigate to `scripts/full-diagnostics/`
-2. Double-click `simple-security-check.command`
+2. Double-click `macos-security-diagnostics.command`
 3. Report will be saved to your Desktop
 
 ### Option 2: Command Line Full Scan
