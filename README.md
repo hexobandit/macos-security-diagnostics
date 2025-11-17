@@ -128,17 +128,6 @@ If you suspect an active compromise:
 3. **Document everything** (screenshots, timestamps, symptoms)
 4. **Contact IT Security** or appropriate incident response team
 5. **Do NOT** attempt to remove suspicious files without guidance
-
-## 📞 Support
-
-- Report issues: [GitHub Issues](https://github.com/yourusername/macos-security-diagnostics/issues)
-- Security concerns: Contact your organization's security team
-
-## 🔄 Version History
-
-- v1.1.0 - Reorganized structure, added documentation
-- v1.0.0 - Initial release with core diagnostic scripts
-
 ---
 
 **Remember**: These tools help identify issues but should be used alongside proper security practices and professional incident response when needed.
