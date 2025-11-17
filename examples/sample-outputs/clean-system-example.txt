@@ -1,0 +1,193 @@
+===============================
+macOS Security Triage Report
+===============================
+Date: Wed Nov 17 14:30:15 PST 2024
+User: johndoe
+Hostname: Johns-MacBook-Pro.local
+
+This is a READ-ONLY scan - nothing will be changed or deleted
+Output will be saved to: /Users/johndoe/Desktop/security-scan-20241117-143015.txt
+
+===============================
+1. Suspicious Launch Agents
+===============================
+--- User Launch Agents ---
+total 0
+drwx------@ 3 johndoe  staff   96 Oct 15 09:22 .
+drwx------+ 34 johndoe  staff  1088 Nov 17 09:15 ..
+
+--- System Launch Agents ---
+total 352
+drwxr-xr-x  44 root  wheel   1408 Nov 10 16:45 .
+drwxr-xr-x  65 root  wheel   2080 Nov 10 16:45 ..
+-rw-r--r--   1 root  wheel    570 Oct 25 14:33 com.adobe.AAM.Updater-1.0.plist
+-rw-r--r--   1 root  wheel    644 Oct 25 14:33 com.adobe.AdobeCreativeCloud.plist
+-rw-r--r--   1 root  wheel   1228 Nov  5 12:15 com.apple.AirPlayXPCHelper.plist
+-rw-r--r--   1 root  wheel    405 Nov  5 12:15 com.apple.AMPArtworkAgent.plist
+-rw-r--r--   1 root  wheel   1039 Nov  5 12:15 com.apple.AMPDeviceDiscoveryAgent.plist
+
+--- System Launch Daemons ---
+total 1248
+drwxr-xr-x  156 root  wheel   4992 Nov 10 16:45 .
+drwxr-xr-x   65 root  wheel   2080 Nov 10 16:45 ..
+-rw-r--r--    1 root  wheel    442 Nov  5 12:15 com.apple.AccessoryUpdaterHelper.plist
+-rw-r--r--    1 root  wheel    375 Nov  5 12:15 com.apple.AccountPolicyHelper.plist
+-rw-r--r--    1 root  wheel    513 Nov  5 12:15 com.apple.AirPlayXPCHelper.plist
+
+----- Showing contents of non-Apple LaunchAgents -----
+>> /Library/LaunchAgents/com.adobe.AAM.Updater-1.0.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.adobe.AAM.Updater-1.0</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Applications/Utilities/Adobe Application Manager/core/Adobe Application Manager.app/Contents/MacOS/Adobe Application Manager</string>
+		<string>-updaterStartup</string>
+	</array>
+	<key>RunAtLoad</key>
+	<false/>
+</dict>
+</plist>
+
+>> /Library/LaunchAgents/com.adobe.AdobeCreativeCloud.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.adobe.AdobeCreativeCloud</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Applications/Utilities/Adobe Creative Cloud/ACC/Creative Cloud.app/Contents/MacOS/Creative Cloud</string>
+		<string>--showwindow=false</string>
+		<string>--onOSstartup=true</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+</dict>
+</plist>
+
+===============================
+2. Loaded kexts (Realtek, HoRNDIS, unsigned)
+===============================
+No suspicious kexts found
+
+===============================
+3. Persistence via Login Items
+===============================
+Spotify, Dropbox, 1Password 7 - Password Manager, Slack
+
+===============================
+4. Suspicious Processes (non-root, non-user)
+===============================
+  PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+_windowserver  150   1.5  1.0  8713392  82944   ??  Ss    9:15AM   0:08.45 /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer -daemon
+_spotlight     189   0.0  0.2  4334592  15008   ??  Ss    9:15AM   0:01.23 /System/Library/CoreServices/Spotlight.app/Contents/MacOS/Spotlight
+_mdnsresponder  64   0.0  0.1  4281680   8576   ??  Ss    9:15AM   0:00.45 /usr/sbin/mDNSResponder
+_coreaudiod    209   0.3  0.1  4306656   9344   ??  Ss    9:15AM   0:02.12 /usr/sbin/coreaudiod
+
+===============================
+5. Network Listeners
+===============================
+COMMAND     PID      USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+rapportd    298   johndoe    3u  IPv4 0x1234567890      0t0  TCP *:63342 (LISTEN)
+Spotify     445   johndoe   23u  IPv4 0x1234567891      0t0  TCP 127.0.0.1:4370 (LISTEN)
+Dropbox     512   johndoe    5u  IPv4 0x1234567892      0t0  TCP 127.0.0.1:17603 (LISTEN)
+node       1205   johndoe   21u  IPv4 0x1234567893      0t0  TCP 127.0.0.1:3000 (LISTEN)
+
+===============================
+6. Active outbound connections
+===============================
+tcp4       0      0  192.168.1.100.63445    17.253.144.10.443      ESTABLISHED
+tcp4       0      0  192.168.1.100.63444    140.82.114.26.443      ESTABLISHED
+tcp4       0      0  192.168.1.100.63443    54.230.159.186.443     ESTABLISHED
+tcp4       0      0  192.168.1.100.63442    104.16.249.249.443     ESTABLISHED
+
+===============================
+7. SSH keys + config
+===============================
+total 32
+drwx------  6 johndoe  staff   192 Nov 10 14:22 .
+drwxr-xr-x+ 34 johndoe  staff  1088 Nov 17 09:15 ..
+-rw-r--r--   1 johndoe  staff   222 Oct 20 16:30 config
+-rw-------   1 johndoe  staff   411 Oct 20 16:30 id_ed25519
+-rw-r--r--   1 johndoe  staff   101 Oct 20 16:30 id_ed25519.pub
+-rw-------   1 johndoe  staff   803 Nov 10 14:22 known_hosts
+--- authorized_keys ---
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKjQw... johndoe@MacBook-Pro
+
+===============================
+8. Remote Login / Screen Sharing
+===============================
+Remote Login: Off
+--- Screen Sharing Status ---
+Screen sharing appears to be disabled
+
+===============================
+9. Configuration Profiles
+===============================
+There are no configuration profiles installed
+
+===============================
+10. Recent system modifications (last 48h)
+===============================
+Checking for recently modified files in system locations...
+-rw-r--r--   1 root  wheel     1039 Nov 16 11:45 /Library/LaunchAgents/com.apple.AMPDeviceDiscoveryAgent.plist
+-rw-r--r--   1 root  wheel      442 Nov 16 11:45 /Library/LaunchDaemons/com.apple.AccessoryUpdaterHelper.plist
+
+===============================
+11. Recent auth events (last 2h)
+===============================
+2024-11-17 09:15:32.123456-0800  SecurityAgent[156]: User johndoe logged in successfully
+2024-11-17 09:45:22.789012-0800  loginwindow[89]: Login Window - User Switching Disabled
+2024-11-17 10:30:15.456789-0800  authd[298]: Authentication succeeded for user johndoe (UID 501)
+
+===============================
+12. Additional Security Checks
+===============================
+--- Firewall Status ---
+Firewall is enabled. (State = 1)
+
+--- System Integrity Protection ---
+System Integrity Protection status: enabled
+
+--- FileVault Status ---
+FileVault is On.
+
+--- Gatekeeper Status ---
+assessments enabled
+
+===============================
+13. Summary
+===============================
+Output collected. Review for:
+- Unknown LaunchAgents
+- Realtek/HoRNDIS kexts
+- Unknown processes
+- Unexpected SSH keys
+- Strange network connections
+
+SPECIFICALLY CHECK FOR:
+- Files named 'Wlan.Software' in LaunchAgents
+- Non-Apple .plist files with recent modification dates
+- Unexpected listening ports
+- SSH authorized_keys you didn't add
+- Remote access enabled without your knowledge
+
+Report saved to: /Users/johndoe/Desktop/security-scan-20241117-143015.txt
+
+==============================
+Scan Complete!
+==============================
+Report has been saved to your Desktop:
+/Users/johndoe/Desktop/security-scan-20241117-143015.txt
+
+You can:
+1. Review the report for suspicious items
+2. Share it with IT security for analysis
+3. Compare with future scans to detect changes
+
+Opening Desktop folder...

