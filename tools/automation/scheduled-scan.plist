@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.security.diagnostics.scheduled</string>
+    
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>cd "$HOME/Documents/Scripts/macos-security-diagnostics" && ./scripts/full-diagnostics/simple-security-check.command</string>
+    </array>
+    
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>0</integer>
+        <key>Hour</key>
+        <integer>2</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    
+    <key>StandardOutPath</key>
+    <string>/tmp/security-scan-scheduled.log</string>
+    
+    <key>StandardErrorPath</key>
+    <string>/tmp/security-scan-scheduled.error</string>
+    
+    <key>RunAtLoad</key>
+    <false/>
+    
+    <key>UserName</key>
+    <string>$(whoami)</string>
+    
+    <key>WorkingDirectory</key>
+    <string>$(echo $HOME)/Documents/Scripts/macos-security-diagnostics</string>
+    
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>$(echo $HOME)</string>
+    </dict>
+    
+    <!-- Optional: Only run if user is logged in -->
+    <key>LimitLoadToSessionType</key>
+    <array>
+        <string>Aqua</string>
+    </array>
+    
+    <!-- Keep the job loaded even if it fails -->
+    <key>KeepAlive</key>
+    <false/>
+    
+    <!-- Don't run if the system is on battery power -->
+    <key>RequiresACPower</key>
+    <true/>
+    
+    <!-- Description for debugging -->
+    <key>ServiceDescription</key>
+    <string>Automated weekly macOS security diagnostic scan</string>
+</dict>
+</plist>
